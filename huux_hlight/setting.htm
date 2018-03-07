@@ -1,0 +1,109 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+<style type="text/css">
+.bootstrap-colorpalette{padding-left:4px;padding-right:4px;white-space:normal;line-height:1}
+.bootstrap-colorpalette div{line-height:0}
+.bootstrap-colorpalette .btn-color{width:17px;height:17px;border:1px solid #fff;margin:0;padding:0}
+.bootstrap-colorpalette .btn-color:hover{border:1px solid #000}
+</style>            
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="card-header"> 
+					<div class="d-flex justify-content-between">
+						<div class="btn btn-sm"><?php echo lang('admin_thread_hlight');?></div>
+						<div class="btn-group">
+							    <a class="btn btn-sm" target="_blank" href="//www.huux.cc" role="button"><?php echo lang('admin_feedback');?></a>
+								<a class="btn btn-sm" target="_blank" href="https://jq.qq.com/?_wv=1027&k=4B02i5s" role="button"><i class="icon-qq"></i></a>
+								<a class="btn btn-sm" href="<?php echo url("plugin-setting-huux_hlight");?>" role="button"><i class="icon-refresh"></i></a>
+								<a class="btn btn-sm" href="<?php echo url("plugin");?>" role="button"><i class="icon-times"></i></a>
+						</div>
+					</div>
+				</div>
+			<div class="card-body">
+				<form action="<?php echo url("plugin-setting-huux_hlight");?>" method="post" id="form">
+				    <div class="form-group row">
+						<label class="col-md-2 form-control-label text-right"><?php echo lang('admin_display_prefixname');?>：</label>
+						<div class="col-md-10">
+						    <?php echo $input['hlight_n_io']; ?> 
+						</div>
+					</div>
+					 
+					<?php for($i = 1; $i < 6; $i++){ ?>
+					<div class="form-group row ">
+						<label class="col-md-2 form-control-label text-right" style="font-weight:<?php echo $setting['hlight_s'.$i.'w'];?>;color:<?php echo $setting['hlight_s'.$i.'c'];?>"><?php echo lang('admin_style');?><?php echo $i;?>：</label>
+						<div class="col-md-3">
+							<div class="input-group mb-1">
+								<div class="input-group-prepend"><span class="input-group-text"><?php echo lang('admin_prefixname');?></span></div>
+								<?php echo $input['hlight_s'.$i.'n'];?>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="input-group mb-1">
+								<div class="input-group-prepend">
+									<button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"><?php echo lang('admin_select_color');?></button> 
+									<ul class="dropdown-menu"> <li><div id="colorpalette<?php echo $i;?>"></div></li></ul>
+								</div>
+								<?php echo $input['hlight_s'.$i.'c'];?>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="input-group mb-1">
+								<div class="input-group-prepend"><span class="input-group-text"><?php echo lang('admin_text_fontweight');?></span></div>
+								<?php echo $input['hlight_s'.$i.'w'];?>
+							</div>
+						</div>
+					</div>
+					<?php } ?>
+						
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label"></label>
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+						</div>
+			        </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+<script type="text/javascript" src="../plugin/huux_hlight/view/js/bootstrap-colorpalette.js" charset="utf-8"></script>
+<script>
+	$('#colorpalette1').colorPalette().on('selectColor', function(e) {
+	   $('#hlight_s1c').val(e.color).css("color",e.color);
+	});
+	$('#colorpalette2').colorPalette().on('selectColor', function(e) {
+	   $('#hlight_s2c').val(e.color).css("color",e.color);
+	});
+	$('#colorpalette3').colorPalette().on('selectColor', function(e) {
+	   $('#hlight_s3c').val(e.color).css("color",e.color);
+	});
+	$('#colorpalette4').colorPalette().on('selectColor', function(e) {
+	   $('#hlight_s4c').val(e.color).css("color",e.color);
+	});
+	$('#colorpalette5').colorPalette().on('selectColor', function(e) {
+	   $('#hlight_s5c').val(e.color).css("color",e.color);
+	});
+</script>
+<script>
+	var jform = $("#form");
+	var jsubmit = $("#submit");
+	var referer = '<?php echo url("plugin-setting-huux_hlight");?>';
+	jform.on('submit', function(){
+	jform.reset();
+	jsubmit.button('loading');
+	var postdata = jform.serialize();
+	console.log(postdata);
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			$.alert(message);
+			jsubmit.text(message).delay(500).button('reset').location(referer);
+			return;
+		} else {
+			$.alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+</script>

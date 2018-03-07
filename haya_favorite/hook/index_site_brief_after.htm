@@ -1,0 +1,41 @@
+<?php 
+$haya_favorite_config = setting_get('haya_favorite');
+if ($haya_favorite_config['show_hot_favorite'] == 1) {
+?>
+
+	<?php 
+	$haya_favorite_hot_thread_size = intval($haya_favorite_config['user_favorite']);
+	$haya_favorite_hot_threads = haya_favorite_hot_threads_base_user_favorite($haya_favorite_hot_thread_size, intval($haya_favorite_config['hot_favorite_time'])); 
+	?>
+
+	<div class="card">
+		<div class="card-body">
+			<div class="card-title">
+				热门收藏（<?php echo $haya_favorite_hot_thread_size; ?>）
+			</div>
+			
+			<hr class="m-0" />
+			
+			<ul class="list-unstyled postlist m-0 mt-2">
+				<?php $haya_favorite_i = 1; ?>
+				<?php if($haya_favorite_hot_threads) { foreach($haya_favorite_hot_threads as & $haya_favorite_hot_thread) { ?>
+					<li class="media py-1" data-tid="<?php echo $haya_favorite_hot_thread['tid'];?>">
+						<div class="media-body">
+							<a href="<?php echo url("thread-$haya_favorite_hot_thread[tid]");?>">
+								<?php echo $haya_favorite_i; ?>.
+								<?php echo $haya_favorite_hot_thread['subject'];?>
+							</a>
+							
+							<span class="pull-right badge badge-pill badge-primary haya-favorite-count"><?php echo intval($haya_favorite_hot_thread['haya_favorites']); ?></span>
+						</div>
+					</li>
+					<?php $haya_favorite_i ++; ?>
+				<?php }} else { ?>
+					<li class="media py-1">
+						<div class="text-center text-muted">还没有发现热门收藏~</div>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
+	</div>
+<?php } ?>

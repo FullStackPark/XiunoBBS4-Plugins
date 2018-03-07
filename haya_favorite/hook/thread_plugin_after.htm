@@ -1,0 +1,31 @@
+<div class="haya-favoriter">
+
+	<div class="card d-none haya-favorite-show-users">
+		<div class="card-body">
+			<div class="card-title small">
+				<b>收藏列表</b>（<span class="haya-favorite-user-count"><?php echo intval($thread['haya_favorites']); ?></span>）
+			
+				<?php if (!empty($uid)) { ?>
+					<span class="pull-right">
+						<a href="<?php echo url("my-favorite"); ?>" target="_blank" class="text-muted">我的收藏</a>
+					</span>
+				<?php } ?>
+			</div>		
+			
+			<hr class="m-0"/>
+		
+			<div class="media mt-2">
+				<div class="text-muted haya-favorite-users">
+					<?php $haya_favorite_users = haya_favorite_by_tid($tid); ?>
+					<?php if (!empty($haya_favorite_users)) { ?>
+						<?php echo implode('、', $haya_favorite_users); ?>
+					<?php } else { ?>
+						还没有人收藏过本帖~
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+		
+		<span class="badge badge-pill badge-secondary haya-favorite-close" onclick="haya_favorite_show_users()">X</span>
+	</div>
+</div>

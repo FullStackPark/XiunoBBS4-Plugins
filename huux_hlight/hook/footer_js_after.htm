@@ -1,0 +1,18 @@
+<script>
+// 主题高亮
+$('.mod-button button.hlight').on('click', function() {
+	var modtid = $('input[name="modtid"]').checked();
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	var radios = xn.form_radio('hlight', {"0": "<?php echo '<span class=\"huux_thread_hlight_style0\">'.lang('thread_hlight_0').'</span>';?>", "1": "<?php echo '<span class=\"huux_thread_hlight_style1\">'.lang('thread_hlight_1').'</span>';?>","2": "<?php echo '<span class=\"huux_thread_hlight_style2\">'.lang('thread_hlight_2').'</span>';?>", "3": "<?php echo '<span class=\"huux_thread_hlight_style3\">'.lang('thread_hlight_3').'</span>';?>", "4": "<?php echo '<span class=\"huux_thread_hlight_style4\">'.lang('thread_hlight_4').'</span>';?>", "5": "<?php echo '<span class=\"huux_thread_hlight_style5\">'.lang('thread_hlight_5').'</span>';?>"});
+	$.confirm("<?php echo lang('set_thread_hlight');?>", function() {
+		var tids = xn.implode('_', modtid);
+		var hlight = $('input[name="hlight"]').checked();
+		var postdata = {hlight: hlight};
+		$.xpost(xn.url('mod-hlight-'+tids), postdata, function(code, message) {
+			if(code != 0) return $.alert(message);
+			$.alert(message).delay(1000).location('');
+		});
+	}, {'body': '<p>'+"<?php echo lang('thread_hlight_style');?>"+'：'+radios+'</p>'});
+})
+</script>
+

@@ -1,0 +1,6 @@
+<?php 
+$haya_favorite_cond['uid'] = $uid; 
+$haya_favorite_count = haya_favorite_count($haya_favorite_cond);
+?>
+
+<br><span class="text-muted">收藏数：</span><a href="<?php echo url("my-favorites"); ?>" target="_blank"><?php echo intval($haya_favorite_count);?></a>

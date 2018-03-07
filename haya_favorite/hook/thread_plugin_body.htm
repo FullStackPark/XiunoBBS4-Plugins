@@ -1,0 +1,125 @@
+<?php $haya_favorite_check_favorite = haya_favorite_find_by_uid_and_tid($uid, $tid); ?>
+
+<style>
+.haya-favoriter {
+	position: relative;
+}
+.haya-favorite-show-users {
+	position: absolute;
+	top: 5px;
+	z-index: 100;
+	width: 100%;
+}
+.haya-favorite-secondary {
+	background: var(--white);
+	border: 1px solid var(--gray);
+}
+.haya-favorite-secondary:hover {
+	background: var(--white-100);
+}
+.haya-favorite-close {
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	z-index: 100;
+	cursor: pointer;
+}
+</style>
+
+<div class="haya-favoriter">
+	<span class="btn-group haya-favoriter-info" role="group">
+		<?php if ($uid) { ?>
+			<?php if($haya_favorite_check_favorite){ ?>
+				<button class="btn haya-favorite-secondary js-haya-del-favorite" onclick="haya_favorite_del()" title="取消收藏" id="haya_del_favorite">
+					<i class="icon icon-star text-muted" aria-label="取消收藏"></i>
+					<span class="text-muted haya-favorite-btn">取消</span>
+				</button>
+			<?php } else { ?>
+				<button class="btn haya-favorite-secondary js-haya-add-favorite" onclick="haya_favorite_add()" title="收藏本帖" id="haya_add_favorite">
+					<i class="icon icon-star-o text-muted" aria-label="收藏"></i>
+					<span class="text-muted haya-favorite-btn">收藏</span>
+				</button>
+			<?php } ?>	
+		<?php } else { ?>
+			<button class="btn haya-favorite-secondary js-haya-add-favorite" onclick="haya_favorite_tip()" title="收藏本帖">
+				<i class="icon icon-star text-muted" aria-label="收藏"></i>
+				<span class="text-muted haya-favorite-btn">收藏</span>
+			</button>
+		<?php } ?>
+
+		<button class="btn haya-favorite-secondary" title="点击查看收藏详情" onclick="haya_favorite_show_users()">
+			<span class="text-muted haya-favorite-user-count"><?php echo intval($thread['haya_favorites']); ?></span>
+		</button>
+	</span>
+</div>
+
+<script>
+function haya_favorite_show_users() {
+	if ($(".haya-favorite-show-users").hasClass("d-none")) {
+		$(".haya-favorite-show-users").removeClass("d-none");
+	} else {
+		$(".haya-favorite-show-users").addClass("d-none");
+	}
+}
+
+<?php if ($uid) { ?>
+function haya_favorite_add() {
+	$.xpost('<?php echo url("my-favorite");?>', 'action=add&tid=<?php echo $tid;?>', function(code, msg){
+		if (code == 1) {
+			var thiz = $('#haya_add_favorite');
+			thiz.attr('onclick','haya_favorite_del()')
+				.attr('id', 'haya_del_favorite')
+				.attr('title', '取消收藏');		
+		
+			thiz.find(".icon").removeClass('icon-star-o')
+				.addClass('icon-star')
+				.attr("aria-label", '取消收藏');
+				
+			thiz.find(".haya-favorite-btn")
+				.text('取消');				
+			
+			if (msg.count > 0) {
+				$(".haya-favorite-users").html(msg.users);
+			} else {
+				$(".haya-favorite-users").text("还没有人收藏过本帖~");
+			}
+			
+			$(".haya-favorite-user-count").text(msg.count);
+		} else {
+			$.alert(msg);
+		}
+	});
+}
+function haya_favorite_del() {
+	$.xpost('<?php echo url("my-favorite");?>','action=del&tid=<?php echo $tid;?>',function(code,msg){
+		if (code == 1) {				
+			var thiz = $('#haya_del_favorite');
+			thiz.attr('onclick', 'haya_favorite_add()')
+				.attr('id', 'haya_add_favorite')
+				.attr('title', '收藏');		
+		
+			thiz.find(".icon").removeClass('icon-star')
+				.addClass('icon-star-o')
+				.attr("aria-label", '收藏');
+				
+			thiz.find(".haya-favorite-btn")
+				.text('收藏');				
+				
+			if (msg.count > 0) {
+				$(".haya-favorite-users").html(msg.users);
+			} else {
+				$(".haya-favorite-users").text("还没有人收藏过本帖~");
+			}
+			
+			$(".haya-favorite-user-count").text(msg.count);				
+		} else {
+			$.alert(msg);
+		}
+	});
+}
+<?php } else { ?>
+function haya_favorite_tip() {
+	$.alert("登录后才可以收藏帖子");
+}
+<?php } ?>
+</script>

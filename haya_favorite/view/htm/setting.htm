@@ -1,0 +1,128 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm'); ?>
+
+<div class="row">
+	<div class="col-sm-12">
+		
+		<div class="card">
+			<div class="card-body">
+				<form action="<?php echo url('plugin-setting-haya_favorite');?>" method="post" id="formcreate">
+					<h4 class="card-title mb-3">帖子收藏设置</h4>
+					
+					<hr class="m-0" />
+					
+					<div class="form-group row mb-3 mt-4">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="user_favorite">
+							每页收藏数量：
+						</label>
+						<div class="col-md-8">
+							<input type="text" name="user_favorite" id="user_favorite" value="<?php echo isset($config['user_favorite']) ? intval($config['user_favorite']) : 10; ?>" class="form-control">
+							<div class="figure-caption mt-2">
+								设置收藏页面每页要显示的帖子数量。
+							</div>
+						</div>
+					</div>
+					
+					<!--
+					<div class="form-group row mb-3">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="user_favorite_sort">
+							用户收藏排序：
+						</label>
+						<div class="col-md-8">
+							<select name="user_favorite_sort" id="user_favorite_sort" class="form-control">
+								<?php if ($config['user_favorite_sort'] == 'asc') { ?>
+									<option value="asc" selected="selected">顺序排序</option>
+									<option value="desc">倒序排序</option>
+								<?php } else { ?>
+									<option value="asc">顺序排序</option>
+									<option value="desc" selected="selected">倒序排序</option>
+								<?php } ?>
+							</select>
+							<div class="figure-caption mt-2">
+								设置用户收藏默认排序。
+							</div>
+						</div>
+					</div>	
+					-->
+					
+					<div class="form-group row mb-3">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="show_hot_favorite">
+							热门收藏：
+						</label>
+						<div class="col-md-8">
+							<select name="show_hot_favorite" id="show_hot_favorite" class="form-control">
+								<?php if ($config['show_hot_favorite'] == 1) { ?>
+									<option value="1" selected="selected">启用</option>
+									<option value="0">关闭</option>
+								<?php } else { ?>
+									<option value="1">启用</option>
+									<option value="0" selected="selected">关闭</option>
+								<?php } ?>
+							</select>
+							<div class="figure-caption mt-2">
+								是否在首页显示热门收藏。
+							</div>
+						</div>
+					</div>	
+					
+					<div class="form-group row mb-3 mt-4">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="hot_favorite">
+							热门收藏数量：
+						</label>
+						<div class="col-md-8">
+							<input type="text" name="hot_favorite" id="hot_favorite" value="<?php echo isset($config['hot_favorite']) ? intval($config['hot_favorite']) : 10; ?>" class="form-control">
+							<div class="figure-caption mt-2">
+								设置热门收藏要显示的帖子数量。
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group row mb-3 mt-4">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="hot_favorite_time">
+							热门收藏缓存时间：
+						</label>
+						<div class="col-md-8">
+							<input type="text" name="hot_favorite_time" id="hot_favorite_time" value="<?php echo isset($config['hot_favorite_time']) ? intval($config['hot_favorite_time']) : 86400; ?>" class="form-control">
+							<div class="figure-caption mt-2">
+								设置热门收藏的缓存时间，设置为 0 表示不缓存。单位：秒。
+							</div>
+						</div>
+					</div>					
+					
+					<div class="form-group row mb-3">
+						<label class="col-md-2 form-control-label text-md-right pr-0" for="clear_hot_favorite">
+							清除热门收藏缓存：
+						</label>
+						<div class="col-md-8">
+							<select name="clear_hot_favorite" id="clear_hot_favorite" class="form-control">
+								<option value="1">清除缓存</option>
+								<option value="0" selected="selected">暂不清除</option>
+							</select>
+							<div class="figure-caption mt-2">
+								清除热门收藏缓存，默认间隔24小时更新缓存。
+							</div>
+						</div>
+					</div>					
+					
+					<div class="form-group row mb-3">
+						<label class="col-md-2 form-control-label"></label>
+						<div class="col-md-2">
+							<button type="submit" class="btn btn-primary btn-block mr-2 mb-2" id="submit">确认</button>
+						</div>
+						<div class="col-md-2">
+							<a role="button" class="btn btn-secondary btn-block mb-2" href="javascript:history.back();">返回</a>
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php
+include _include(ADMIN_PATH.'view/htm/footer.inc.htm');
+?>
+
+<script>
+$('#nav li.nav-item-plugin').addClass('active');
+</script>

@@ -1,0 +1,99 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<div class="row">
+	<div class="col-lg-9">
+	
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="./">
+					<i class="icon-home" aria-hidden="true"></i>
+					首页
+				</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<a href="<?php echo url("my");?>">
+					我的主页
+				</a>
+			</li>
+			<li class="breadcrumb-item active">
+				<a href="<?php echo url("my-favorites");?>">
+					我的收藏
+				</a>
+			</li>			
+		</ol>	
+	
+		<div class="card">
+			<div class="card-header d-flex justify-content-between">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" href="<?php echo url("my-favorites");?>">我的收藏 (<?php echo intval($haya_favorite_count);?>)</a>
+					</li>
+				</ul>
+				
+				<div class="text-right text-small pt-1 card-header-dropdown">
+					<div class="btn-toolbar" role="toolbar">
+						<span class="text-muted">排序：</span>
+						<div class="dropdown btn-group">
+							<a href="#" class="dropdown-toggle" id="ordery_dropdown_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    <?php echo $orderby == 'desc' ? '倒序查看' : '顺序查看';?>							
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="ordery_dropdown_menu" x-placement="bottom-end">
+							    <a class="dropdown-item" href="<?php echo url("my-favorites", array('orderby' => 'asc')); ?>"><i class="icon text-primary <?php echo $orderby == 'asc' ? 'icon-check' : '';?>"></i>&nbsp; 顺序查看</a>
+							    <a class="dropdown-item" href="<?php echo url("my-favorites", array('orderby' => 'desc')); ?>"><i class="icon text-primary <?php echo $orderby == 'desc' ? 'icon-check' : '';?>"></i>&nbsp; 倒序查看</a>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>
+			<div class="card-body">
+				<ul class="list-unstyled postlist">
+					<?php include _include(APP_PATH.'plugin/haya_favorite/view/htm/my_favorites_thread.htm');?>
+				</ul>
+			</div>
+		</div>
+		
+		<?php if($pagination) { ?>
+			<nav><ul class="pagination my-4 justify-content-center"><?php echo $pagination; ?></ul></nav>
+		<?php }?>
+		
+		<div class="text-center">
+			<a role="button" class="btn btn-secondary center-block w-50 mb-3" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		</div>
+	</div>
+	
+	<div class="col-lg-3 pl-2 d-none d-lg-block">
+		
+		<div class="card">
+			<div class="m-3 text-center">
+				<a href="<?php echo url("user-$uid");?>" tabindex="-1">
+					<img class="avatar-5" src="<?php echo $user['avatar_url'];?>">
+				</a>
+				<h5 class="mt-1">
+					<a href="<?php echo url("user-".$uid);?>"><?php echo $user['username'];?></a>
+				</h5>
+			</div>
+	
+			<div class="card-footer p-2">
+				<table class="w-100 small">
+					<tr align="center">
+						<td>
+							<span class="text-muted"><?php echo lang('threads');?></span><br>
+							<b><?php echo $user['threads'];?></b>
+						</td>
+						<td>
+							<span class="text-muted"><?php echo lang('posts');?></span><br>
+							<b><?php echo $user['posts'];?></b>
+						</td>
+						<td>
+							<span class="text-muted">我的收藏</span><br>
+							<b><?php echo intval($haya_favorite_count);?></b>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>	
+	
+	</div>
+</div>
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>

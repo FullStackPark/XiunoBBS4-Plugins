@@ -1,0 +1,12 @@
+<?php 
+$huux_hlight = setting_get('huux_hlight');
+if($huux_hlight){
+	echo '<div class="d-none huux_hlight">';
+		echo '<style type="text/css">';
+		for( $i=1; $i<6; $i++ ){
+		echo '.huux_thread_hlight_style'.$i.'{color: '.$huux_hlight['hlight_s'.$i.'c'].';font-weight:'.$huux_hlight['hlight_s'.$i.'w'].'}';
+		}
+		echo '</style>';
+	echo '</div>';
+}
+?>
